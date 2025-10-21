@@ -13,20 +13,23 @@
       --card:#0f172a;
       --muted:#94a3b8;
       --text:#e2e8f0;
-      --brand:#0ea5e9;     /* cyan-500 */
-      --brand-2:#22d3ee;   /* cyan-400 */
-      --ok:#22c55e;
-      --warn:#f59e0b;
-      --danger:#ef4444;
+      --brand:#0ea5e9;
+      --brand-2:#22d3ee;
       --shadow: 0 10px 30px rgba(0,0,0,.35);
       --radius: 16px;
       --radius-sm: 12px;
       --ring: 0 0 0 2px #0ea5e980, 0 0 0 6px #0ea5e930;
+
+      /* Vars “por si acaso” tu widget las lee */
+      --sb-bg: #0f172a;
+      --sb-accent: #0ea5e9;
+      --sb-radius: 18px;
+      --sb-shadow: 0 18px 60px rgba(0,0,0,.55);
     }
     *{box-sizing:border-box}
     html,body{margin:0;height:100%;background:radial-gradient(1200px 600px at 85% -100px, #0ea5e922, transparent 60%), var(--bg); color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";}
 
-    /* Header */
+    /* -------- NAV -------- */
     .nav{
       position: sticky; top:0; z-index:50;
       backdrop-filter: blur(8px);
@@ -51,15 +54,13 @@
     .btn.ghost{background:transparent}
     .pill{font-size:12px;padding:4px 8px;border-radius:999px;background:#0ea5e91a;border:1px solid #0ea5e93a;color:#7dd3fc;font-weight:700}
 
-    /* Hero */
+    /* -------- HERO -------- */
     .hero{max-width:1200px;margin:28px auto 0;padding:28px 18px 12px;display:grid;grid-template-columns:1.3fr .9fr;gap:22px;align-items:center}
     @media (max-width: 920px){.hero{grid-template-columns:1fr}}
     .h-title{font-size:clamp(26px,4vw,48px);line-height:1.05;margin:0 0 10px;font-weight:900;letter-spacing:.2px}
     .h-sub{color:var(--muted);font-size:clamp(14px,1.9vw,16px);margin:0 0 16px}
     .h-cta{display:flex;gap:12px;flex-wrap:wrap}
-    .stats{
-      display:flex;gap:18px;margin-top:18px;flex-wrap:wrap
-    }
+    .stats{display:flex;gap:18px;margin-top:18px;flex-wrap:wrap}
     .stat{background:linear-gradient(180deg,#051325,#0b172a);border:1px solid rgba(148,163,184,.18);padding:10px 14px;border-radius:12px}
     .hero-card{
       border-radius:18px; overflow:hidden; position:relative; background:var(--card);
@@ -73,7 +74,7 @@
       color:#03130b;font-weight:900;border-radius:999px;padding:6px 10px;font-size:12px;box-shadow:var(--shadow)
     }
 
-    /* Controls */
+    /* -------- CONTROLS -------- */
     .controls{max-width:1200px;margin:10px auto 0;padding:10px 18px 0;display:flex;gap:10px;flex-wrap:wrap}
     .field{
       display:flex;align-items:center;gap:8px;background:linear-gradient(180deg,#0b1629,#0c1a33);
@@ -83,7 +84,7 @@
       background:transparent;border:0;outline:none;color:var(--text);width:100%;font-size:14px
     }
 
-    /* Grid de autos */
+    /* -------- GRID -------- */
     .grid{max-width:1200px;margin:16px auto 36px;padding:0 18px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
     @media (max-width:1024px){.grid{grid-template-columns:repeat(2,1fr)}}
     @media (max-width:640px){.grid{grid-template-columns:1fr}}
@@ -108,7 +109,7 @@
     .actions{display:flex;gap:10px;margin-top:12px}
     .btn.small{padding:8px 10px;border-radius:10px;font-size:13px}
 
-    /* Footer */
+    /* -------- FOOTER -------- */
     footer{border-top:1px solid rgba(148,163,184,.12);padding:28px 18px;color:var(--muted);text-align:center;background:linear-gradient(180deg,transparent,#060a14)}
     .credit{opacity:.8;font-size:12px}
     .floating-help{
@@ -118,6 +119,26 @@
       box-shadow:var(--shadow); cursor:pointer; border:0;
     }
     .floating-help:focus{outline:none; box-shadow: var(--shadow), var(--ring)}
+
+    /* ====== ENHANCER PARA EL WIDGET (FONDO SÓLIDO DETRÁS) ====== */
+    #sb-widget-halo{
+      position:fixed;
+      right:16px;
+      bottom:16px;
+      width:min(92vw, 380px);
+      height:520px;
+      background:rgba(2,6,23,.90);               /* fondo sólido para legibilidad */
+      border:1px solid rgba(148,163,184,.22);
+      border-radius:18px;
+      box-shadow:0 18px 60px rgba(0,0,0,.55);
+      z-index:2147483646;                          /* justo debajo del widget (suele usar 2147483647) */
+      pointer-events:none;                         /* no bloquea clics del chat */
+    }
+    @media (max-width:640px){
+      #sb-widget-halo{
+        right:8px; left:8px; width:auto; height:70vh; border-radius:16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -144,7 +165,7 @@
   <header class="hero">
     <div>
       <h1 class="h-title">Tu próximo auto, <span style="background:linear-gradient(90deg,#7dd3fc,#a5f3fc);-webkit-background-clip:text;background-clip:text;color:transparent">hoy</span>.</h1>
-      <p class="h-sub">Nuevos y usados certificados, entrega inmediata, garantía extendida y planes de financiación flexibles. Agenda tu test drive.</p>
+    <p class="h-sub">Nuevos y usados certificados, entrega inmediata, garantía extendida y planes de financiación flexibles. Agenda tu test drive.</p>
       <div class="h-cta">
         <button class="btn brand" onclick="document.getElementById('inventario').scrollIntoView({behavior:'smooth'})">Ver inventario</button>
         <button class="btn" onclick="alert('¡Un asesor te contactará!')">Agendar test drive</button>
@@ -163,15 +184,8 @@
 
   <!-- CONTROLES -->
   <section id="inventario" class="controls" aria-label="Filtros">
-    <div class="field" title="Buscar">
-      🔎 <input id="q" placeholder="Buscar modelo o marca…" />
-    </div>
-    <div class="field" title="Marca">
-      🚗
-      <select id="brand">
-        <option value="">Todas las marcas</option>
-      </select>
-    </div>
+    <div class="field" title="Buscar">🔎 <input id="q" placeholder="Buscar modelo o marca…" /></div>
+    <div class="field" title="Marca">🚗 <select id="brand"><option value="">Todas las marcas</option></select></div>
     <div class="field" title="Tipo">
       🚙
       <select id="type">
@@ -214,27 +228,32 @@
       </div>
     </div>
   </section>
-<script defer
-  src="https://saas-pern-bots-starter.onrender.com/api/embed/widget.js"
-  data-server="https://saas-pern-bots-starter.onrender.com"
-  data-cdn="https://saas-pern-bots-starter.onrender.com"
-  data-bot="cmh0zhbck0006d153va2wkqoi"
-  data-autopen="0"
-  data-position="right"></script>
+
+  <!-- ===== HALO detrás del widget (para que NO se vea transparente) ===== -->
+  <div id="sb-widget-halo" aria-hidden="true"></div>
+
+  <!-- === Tu SNIPPET del BOT (sin cambios) === -->
+  <script defer
+    src="https://saas-pern-bots-starter.onrender.com/api/embed/widget.js"
+    data-server="https://saas-pern-bots-starter.onrender.com"
+    data-cdn="https://saas-pern-bots-starter.onrender.com"
+    data-bot="cmh0zhbck0006d153va2wkqoi"
+    data-autopen="0"
+    data-position="right"></script>
+
   <footer>
     <p>📍 Av. Principal #123 — Lunes a sábado 9:00–18:00</p>
     <p class="credit">© Nova Motors. Todos los derechos reservados.</p>
   </footer>
 
-  <!-- Botón de ayuda (opcional) -->
-  <button class="floating-help" onclick="document.getElementById('chat-anchor')?.scrollIntoView({behavior:'smooth'})">¿Necesitas ayuda?</button>
+  <!-- Botón de ayuda opcional -->
 
-  <!-- 🧩 AQUÍ PEGA TU SNIPPET DEL BOT -->
+
+  <!-- “Ancla” por si quieres montar el chat ahí en el futuro -->
   <div id="chat-anchor"></div>
-  <!-- <script defer src="http://localhost:4000/api/embed/widget.js" data-server="http://localhost:4000" data-bot="PUBLIC_ID"></script> -->
 
   <script>
-    // Datos de ejemplo (puedes reemplazar por tu API)
+    // Datos de ejemplo
     const cars = [
       { id:1, brand:"Toyota", model:"Corolla SE", year:2023, price:22990, type:"Sedán", km:0, condition:"Nuevo", img:"https://images.unsplash.com/photo-1549924231-f129b911e442?q=80&w=1500&auto=format&fit=crop" },
       { id:2, brand:"Honda", model:"Civic Touring", year:2022, price:24990, type:"Sedán", km:12000, condition:"Usado", img:"https://images.unsplash.com/photo-1511914265872-c406725b8265?q=80&w=1500&auto=format&fit=crop" },
@@ -246,8 +265,6 @@
       { id:8, brand:"BMW", model:"320i Sport", year:2021, price:38900, type:"Sedán", km:21000, condition:"Usado", img:"https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=1600&auto=format&fit=crop" },
       { id:9, brand:"Nissan", model:"Kicks Advance", year:2022, price:19990, type:"SUV", km:18000, condition:"Usado", img:"https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?q=80&w=1600&auto=format&fit=crop" },
     ];
-
-
 
     // Poblar select de marcas
     const brandSel = document.getElementById('brand');
@@ -312,7 +329,7 @@
         case 'price-desc': list.sort((a,b)=>b.price-a.price); break;
         case 'year-desc': list.sort((a,b)=>b.year-a.year); break;
         case 'km-asc': list.sort((a,b)=>a.km-b.km); break;
-        default: list.sort((a,b)=> (b.year-a.year) || (a.price-b.price)); // relevancia
+        default: list.sort((a,b)=> (b.year-a.year) || (a.price-b.price));
       }
 
       render(list);
@@ -328,8 +345,6 @@
   </script>
 </body>
 </html>
-
-
 
 
 
