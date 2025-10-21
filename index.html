@@ -256,6 +256,22 @@
   <!-- “Ancla” por si quieres montar el chat ahí en el futuro -->
   <div id="chat-anchor"></div>
 
+<script>
+(function(){
+  const halo = document.getElementById('sb-widget-halo');
+  if(!halo) return;
+  function tick(){
+    // Heurística: si existe un iframe del widget y su alto es “grande”, asumimos chat abierto
+    const ifr = document.querySelector('iframe[src*="embed"], iframe[id*="widget"], iframe[class*="widget"]');
+    const open = !!(ifr && ifr.offsetHeight >= 320);
+    document.body.classList.toggle('sb-open', open);
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
+
+  
   <script>
     // Datos de ejemplo
     const cars = [
@@ -349,6 +365,7 @@
   </script>
 </body>
 </html>
+
 
 
 
