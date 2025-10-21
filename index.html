@@ -1,3 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nova Motors — Concesionario</title>
+  <meta name="description" content="Concesionario de vehículos nuevos y usados. Financiación, test drive y entrega inmediata." />
+  <meta name="theme-color" content="#0ea5e9" />
+  <style>
+    :root{
+      --bg: #0b1220;
+      --bg-soft: #101827;
+      --card:#0f172a;
+      --muted:#94a3b8;
+      --text:#e2e8f0;
+      --brand:#0ea5e9;     /* cyan-500 */
+      --brand-2:#22d3ee;   /* cyan-400 */
+      --ok:#22c55e;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --ring: 0 0 0 2px #0ea5e980, 0 0 0 6px #0ea5e930;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;background:radial-gradient(1200px 600px at 85% -100px, #0ea5e922, transparent 60%), var(--bg); color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";}
+
+    /* Header */
+    .nav{
+      position: sticky; top:0; z-index:50;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, rgba(2,6,23,.85), rgba(2,6,23,.55));
+      border-bottom: 1px solid rgba(148,163,184,.12);
+    }
+    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:14px 18px;}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);}
+    .brand-badge{
+      width:36px;height:36px;border-radius:12px;
+      background: conic-gradient(from 180deg,#0ea5e9,#22d3ee,#0ea5e9);
+      display:grid;place-items:center; color:#001018;font-weight:800; box-shadow:var(--shadow);
+    }
+    .nav-actions{margin-left:auto;display:flex;gap:10px;align-items:center}
+    .btn{
+      border:1px solid rgba(148,163,184,.18); color:var(--text);
+      background:linear-gradient(180deg, rgba(15,23,42,.9), rgba(15,23,42,.7));
+      padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:600;transition:.2s;
+    }
+    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow);border-color:rgba(148,163,184,.35)}
+    .btn.brand{background:linear-gradient(90deg,var(--brand),var(--brand-2)); color:#002331;border:0}
+    .btn.ghost{background:transparent}
+    .pill{font-size:12px;padding:4px 8px;border-radius:999px;background:#0ea5e91a;border:1px solid #0ea5e93a;color:#7dd3fc;font-weight:700}
+
+    /* Hero */
+    .hero{max-width:1200px;margin:28px auto 0;padding:28px 18px 12px;display:grid;grid-template-columns:1.3fr .9fr;gap:22px;align-items:center}
+    @media (max-width: 920px){.hero{grid-template-columns:1fr}}
+    .h-title{font-size:clamp(26px,4vw,48px);line-height:1.05;margin:0 0 10px;font-weight:900;letter-spacing:.2px}
+    .h-sub{color:var(--muted);font-size:clamp(14px,1.9vw,16px);margin:0 0 16px}
+    .h-cta{display:flex;gap:12px;flex-wrap:wrap}
+    .stats{
+      display:flex;gap:18px;margin-top:18px;flex-wrap:wrap
+    }
+    .stat{background:linear-gradient(180deg,#051325,#0b172a);border:1px solid rgba(148,163,184,.18);padding:10px 14px;border-radius:12px}
+    .hero-card{
+      border-radius:18px; overflow:hidden; position:relative; background:var(--card);
+      border:1px solid rgba(148,163,184,.18);
+      box-shadow: var(--shadow);
+      min-height:260px;
+    }
+    .hero-card img{width:100%;height:100%;object-fit:cover;opacity:.9}
+    .tag{
+      position:absolute;top:12px;left:12px;background:#16a34a;
+      color:#03130b;font-weight:900;border-radius:999px;padding:6px 10px;font-size:12px;box-shadow:var(--shadow)
+    }
+
+    /* Controls */
+    .controls{max-width:1200px;margin:10px auto 0;padding:10px 18px 0;display:flex;gap:10px;flex-wrap:wrap}
+    .field{
+      display:flex;align-items:center;gap:8px;background:linear-gradient(180deg,#0b1629,#0c1a33);
+      border:1px solid rgba(148,163,184,.18);border-radius:12px;padding:8px 10px;min-width:160px;
+    }
+    .field input,.field select{
+      background:transparent;border:0;outline:none;color:var(--text);width:100%;font-size:14px
+    }
+
+    /* Grid de autos */
+    .grid{max-width:1200px;margin:16px auto 36px;padding:0 18px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media (max-width:1024px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:640px){.grid{grid-template-columns:1fr}}
+    .card{
+      background:linear-gradient(180deg,#0c1426,#0b1a2f);
+      border:1px solid rgba(148,163,184,.16);
+      border-radius:var(--radius);
+      overflow:hidden; position:relative; transition:.25s; box-shadow: var(--shadow);
+    }
+    .card:hover{transform:translateY(-3px); box-shadow:0 14px 40px rgba(0,0,0,.45); border-color:#7dd3fc3a}
+    .card-img{aspect-ratio: 16/9; width:100%; background:#0a0f1c; display:block; object-fit:cover}
+    .badges{position:absolute; top:10px; left:10px; display:flex; gap:8px}
+    .badge{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800}
+    .b-new{background:#22c55e; color:#07190e}
+    .b-used{background:#f59e0b; color:#1a0f04}
+    .body{padding:14px}
+    .title{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .title h3{margin:0;font-size:18px}
+    .price{font-weight:900;font-size:18px;background:linear-gradient(90deg,#7dd3fc,#a5f3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .specs{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;color:#cbd5e1;font-size:13px}
+    .spec{padding:6px 8px;border:1px solid rgba(148,163,184,.2);border-radius:10px;background:#0c1a33}
+    .actions{display:flex;gap:10px;margin-top:12px}
+    .btn.small{padding:8px 10px;border-radius:10px;font-size:13px}
+
+    /* Footer */
+    footer{border-top:1px solid rgba(148,163,184,.12);padding:28px 18px;color:var(--muted);text-align:center;background:linear-gradient(180deg,transparent,#060a14)}
+    .credit{opacity:.8;font-size:12px}
+    .floating-help{
+      position:fixed; right:16px; bottom:16px; z-index:40;
+      background:linear-gradient(90deg,var(--brand),var(--brand-2));
+      color:#002531; padding:12px 14px; border-radius:999px; font-weight:800;
+      box-shadow:var(--shadow); cursor:pointer; border:0;
+    }
+    .floating-help:focus{outline:none; box-shadow: var(--shadow), var(--ring)}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#">
+        <div class="brand-badge">NM</div>
+        <div>
+          <div style="font-weight:900; letter-spacing:.4px;">Nova Motors</div>
+          <div class="pill">Concesionario oficial</div>
+        </div>
+      </a>
+      <div class="nav-actions">
+        <button class="btn ghost" onclick="document.getElementById('inventario').scrollIntoView({behavior:'smooth'})">Inventario</button>
+        <button class="btn" onclick="document.getElementById('financia').scrollIntoView({behavior:'smooth'})">Financiación</button>
+        <button class="btn brand" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})">Cotizar ahora</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div>
+      <h1 class="h-title">Tu próximo auto, <span style="background:linear-gradient(90deg,#7dd3fc,#a5f3fc);-webkit-background-clip:text;background-clip:text;color:transparent">hoy</span>.</h1>
+      <p class="h-sub">Nuevos y usados certificados, entrega inmediata, garantía extendida y planes de financiación flexibles. Agenda tu test drive.</p>
+      <div class="h-cta">
+        <button class="btn brand" onclick="document.getElementById('inventario').scrollIntoView({behavior:'smooth'})">Ver inventario</button>
+        <button class="btn" onclick="alert('¡Un asesor te contactará!')">Agendar test drive</button>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>250+</b> autos disponibles</div>
+        <div class="stat"><b>48h</b> entrega promedio</div>
+        <div class="stat"><b>0.9%</b> TEA desde</div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <img alt="Banner auto" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600&auto=format&fit=crop" />
+      <div class="tag">Bonos hasta $2.000</div>
+    </div>
+  </header>
+
+  <!-- CONTROLES -->
+  <section id="inventario" class="controls" aria-label="Filtros">
+    <div class="field" title="Buscar">
+      🔎 <input id="q" placeholder="Buscar modelo o marca…" />
+    </div>
+    <div class="field" title="Marca">
+      🚗
+      <select id="brand">
+        <option value="">Todas las marcas</option>
+      </select>
+    </div>
+    <div class="field" title="Tipo">
+      🚙
+      <select id="type">
+        <option value="">Todos los tipos</option>
+        <option value="Sedán">Sedán</option>
+        <option value="SUV">SUV</option>
+        <option value="Pickup">Pickup</option>
+        <option value="Hatchback">Hatchback</option>
+      </select>
+    </div>
+    <div class="field" title="Orden">
+      ↕️
+      <select id="sort">
+        <option value="popular">Ordenar: Relevancia</option>
+        <option value="price-asc">Precio: menor a mayor</option>
+        <option value="price-desc">Precio: mayor a menor</option>
+        <option value="year-desc">Año más nuevo</option>
+        <option value="km-asc">Menos kilómetros</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- GRID -->
+  <main class="grid" id="grid" aria-live="polite"></main>
+
+  <!-- Financiación -->
+  <section id="financia" style="max-width:1200px;margin:0 auto 32px;padding:0 18px;">
+    <div style="display:grid;grid-template-columns:1.1fr .9fr;gap:16px;align-items:center">
+      <div style="background:linear-gradient(180deg,#07142a,#0e223f);border:1px solid rgba(148,163,184,.18);border-radius:14px;padding:16px;">
+        <h2 style="margin:6px 0 10px;font-size:26px">Financiación flexible</h2>
+        <p style="color:var(--muted)">Crédito aprobado en 24-48 horas. Entrega inmediata y posibilidad de retomar tu usado. Simula tu cuota y recibe asesoría personalizada.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+          <button class="btn brand" onclick="alert('Simulador de crédito próximamente')">Simular cuota</button>
+          <button class="btn" onclick="alert('Un asesor te contactará')">Hablar con asesor</button>
+        </div>
+      </div>
+      <div class="hero-card" style="min-height:220px">
+        <img alt="Financiación" src="https://images.unsplash.com/photo-1549923746-c502d488b3ea?q=80&w=1600&auto=format&fit=crop" />
+        <div class="tag" style="background:#7dd3fc;color:#05222c;">Aprobación rápida</div>
+      </div>
+    </div>
+  </section>
 <script defer
   src="https://saas-pern-bots-starter.onrender.com/api/embed/widget.js"
   data-server="https://saas-pern-bots-starter.onrender.com"
@@ -5,3 +221,116 @@
   data-bot="cmh0zhbck0006d153va2wkqoi"
   data-autopen="0"
   data-position="right"></script>
+  <footer>
+    <p>📍 Av. Principal #123 — Lunes a sábado 9:00–18:00</p>
+    <p class="credit">© Nova Motors. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- Botón de ayuda (opcional) -->
+  <button class="floating-help" onclick="document.getElementById('chat-anchor')?.scrollIntoView({behavior:'smooth'})">¿Necesitas ayuda?</button>
+
+  <!-- 🧩 AQUÍ PEGA TU SNIPPET DEL BOT -->
+  <div id="chat-anchor"></div>
+  <!-- <script defer src="http://localhost:4000/api/embed/widget.js" data-server="http://localhost:4000" data-bot="PUBLIC_ID"></script> -->
+
+  <script>
+    // Datos de ejemplo (puedes reemplazar por tu API)
+    const cars = [
+      { id:1, brand:"Toyota", model:"Corolla SE", year:2023, price:22990, type:"Sedán", km:0, condition:"Nuevo", img:"https://images.unsplash.com/photo-1549924231-f129b911e442?q=80&w=1500&auto=format&fit=crop" },
+      { id:2, brand:"Honda", model:"Civic Touring", year:2022, price:24990, type:"Sedán", km:12000, condition:"Usado", img:"https://images.unsplash.com/photo-1511914265872-c406725b8265?q=80&w=1500&auto=format&fit=crop" },
+      { id:3, brand:"Mazda", model:"CX-5 Grand Touring", year:2024, price:32990, type:"SUV", km:0, condition:"Nuevo", img:"https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1600&auto=format&fit=crop" },
+      { id:4, brand:"Chevrolet", model:"Tracker Turbo", year:2021, price:17990, type:"SUV", km:28000, condition:"Usado", img:"https://images.unsplash.com/photo-1523986371872-9d3ba2e2f642?q=80&w=1600&auto=format&fit=crop" },
+      { id:5, brand:"Ford", model:"Ranger XLT 4x4", year:2023, price:38990, type:"Pickup", km:5000, condition:"Usado", img:"https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?q=80&w=1600&auto=format&fit=crop" },
+      { id:6, brand:"Kia", model:"Rio HB", year:2020, price:12990, type:"Hatchback", km:35000, condition:"Usado", img:"https://images.unsplash.com/photo-1579487785973-74d1c7b31075?q=80&w=1600&auto=format&fit=crop" },
+      { id:7, brand:"Hyundai", model:"Tucson Limited", year:2024, price:33990, type:"SUV", km:0, condition:"Nuevo", img:"https://images.unsplash.com/photo-1517940310602-75c41d3e29d0?q=80&w=1600&auto=format&fit=crop" },
+      { id:8, brand:"BMW", model:"320i Sport", year:2021, price:38900, type:"Sedán", km:21000, condition:"Usado", img:"https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=1600&auto=format&fit=crop" },
+      { id:9, brand:"Nissan", model:"Kicks Advance", year:2022, price:19990, type:"SUV", km:18000, condition:"Usado", img:"https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?q=80&w=1600&auto=format&fit=crop" },
+    ];
+
+
+
+    // Poblar select de marcas
+    const brandSel = document.getElementById('brand');
+    Array.from(new Set(cars.map(c=>c.brand))).sort().forEach(b=>{
+      const o=document.createElement('option'); o.value=b; o.textContent=b; brandSel.appendChild(o);
+    });
+
+    const grid = document.getElementById('grid');
+    const q = document.getElementById('q');
+    const typeSel = document.getElementById('type');
+    const sortSel = document.getElementById('sort');
+
+    function formatMoney(n){ return n.toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}); }
+
+    function render(list){
+      grid.innerHTML = '';
+      list.forEach(c=>{
+        const el = document.createElement('article');
+        el.className='card';
+        el.innerHTML = `
+          <div class="badges">
+            <span class="badge ${c.condition==='Nuevo'?'b-new':'b-used'}">${c.condition}</span>
+            ${c.km===0?'<span class="badge b-new" style="background:#38bdf8;color:#03141c">0 km</span>':''}
+          </div>
+          <img class="card-img" alt="${c.brand} ${c.model}" src="${c.img}">
+          <div class="body">
+            <div class="title">
+              <h3>${c.brand} ${c.model}</h3>
+              <div class="price">${formatMoney(c.price)}</div>
+            </div>
+            <div class="specs">
+              <span class="spec">Año ${c.year}</span>
+              <span class="spec">${c.type}</span>
+              <span class="spec">${c.km.toLocaleString()} km</span>
+            </div>
+            <div class="actions">
+              <button class="btn small brand" onclick="alert('Cotización enviada de ${c.brand} ${c.model}')">Cotizar</button>
+              <button class="btn small" onclick="alert('Agendaremos tu test drive de ${c.brand} ${c.model}')">Test drive</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(el);
+      });
+    }
+
+    function applyFilters(){
+      const term = (q.value||'').toLowerCase().trim();
+      const brand = brandSel.value;
+      const type = typeSel.value;
+      const sort = sortSel.value;
+
+      let list = cars.filter(c=>{
+        const text = (c.brand+' '+c.model).toLowerCase();
+        const okQ = !term || text.includes(term);
+        const okB = !brand || c.brand===brand;
+        const okT = !type || c.type===type;
+        return okQ && okB && okT;
+      });
+
+      switch(sort){
+        case 'price-asc': list.sort((a,b)=>a.price-b.price); break;
+        case 'price-desc': list.sort((a,b)=>b.price-a.price); break;
+        case 'year-desc': list.sort((a,b)=>b.year-a.year); break;
+        case 'km-asc': list.sort((a,b)=>a.km-b.km); break;
+        default: list.sort((a,b)=> (b.year-a.year) || (a.price-b.price)); // relevancia
+      }
+
+      render(list);
+    }
+
+    q.addEventListener('input', applyFilters);
+    brandSel.addEventListener('change', applyFilters);
+    typeSel.addEventListener('change', applyFilters);
+    sortSel.addEventListener('change', applyFilters);
+
+    // Primera carga
+    applyFilters();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
