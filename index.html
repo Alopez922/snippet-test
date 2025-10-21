@@ -29,6 +29,51 @@
     *{box-sizing:border-box}
     html,body{margin:0;height:100%;background:radial-gradient(1200px 600px at 85% -100px, #0ea5e922, transparent 60%), var(--bg); color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";}
 
+
+
+
+
+/* ===== FIX VISIBILIDAD DEL WIDGET ===== */
+
+/* 1) Seteamos variables que el widget usa */
+.chat-container{
+  --panel: #0f172a;            /* fondo del panel */
+  --bot: #0b1629;              /* fondo de inputs / barra */
+  --text: #e5e7eb;             /* color de texto principal */
+  --border: rgba(148,163,184,.28);
+  --radius: 16px;
+  --accent: #0ea5e9;           /* botón/launcher */
+  --accentText: #03222e;
+  --shadow: 0 18px 60px rgba(0,0,0,.65);
+}
+
+/* 2) Forzamos fondo sólido del panel (gana sobre inline con !important) */
+.chat-container > div[style*="position: fixed"][style*="width"]{
+  background: #0f172a !important;
+  color: #e5e7eb !important;
+  border: 1px solid rgba(148,163,184,.28) !important;
+  box-shadow: 0 18px 60px rgba(0,0,0,.65) !important;
+  backdrop-filter: none !important;   /* quita vidrio */
+}
+
+/* 3) Inputs/barra de mensaje legibles */
+.chat-container input, .chat-container textarea, 
+.chat-container [contenteditable="true"]{
+  background: #0b1629 !important;
+  color: #e5e7eb !important;
+  border: 1px solid rgba(148,163,184,.28) !important;
+}
+
+/* 4) Botón launcher siempre arriba y visible */
+.chat-container > button{
+  z-index: 2147483647 !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,.45) !important;
+}
+
+/* 5) Por si tienes el halo: debe quedar debajo del widget */
+#sb-widget-halo{ z-index: 2147482000; }
+
+    
     /* -------- NAV -------- */
     .nav{
       position: sticky; top:0; z-index:50;
@@ -365,6 +410,7 @@
   </script>
 </body>
 </html>
+
 
 
 
